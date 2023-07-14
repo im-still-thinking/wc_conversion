@@ -20,7 +20,7 @@
 import abis from "@/config/abis.json";
 
 import { configureChains, createConfig } from "@wagmi/core";
-import {sepolia} from "@wagmi/core/chains";
+import { arbitrum, mainnet, polygon, sepolia} from "@wagmi/core/chains";
 import { EthereumClient, w3mConnectors, w3mProvider } from "@web3modal/ethereum";
 
 import { getAccount, getContract, getNetwork, watchAccount} from '@wagmi/core';
@@ -42,7 +42,7 @@ export default {
   },
   beforeMount() {
     this.isOpen = !this.$vuetify.breakpoint.mobile;
-    const chains = [sepolia];
+    const chains = [arbitrum, mainnet, polygon, sepolia];
     const projectId = "76b2f1c2d99dfca758a403f2cf759f57";
 
     const { publicClient } = configureChains(chains, [
