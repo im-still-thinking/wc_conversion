@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+:root {
+  --body-font: "Inter", sans-serif;
+  --theme-bg: #1f1d2b;
+  --body-color: #808191;
+  --button-bg: #353340;
+  --border-color: rgb(128 129 145 / 24%);
+  --video-bg: #252936;
+  --delay: 0s;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(21, 20, 26, 0.63);
+  border-radius: 10px;
+}
+
+body {
+  font-family: var(--body-font);
+  color: var(--body-color);
+  background-color: var(--theme-bg);
+}
+
+img {
+  max-width: 100%;
+}
+
+label {
+  margin-bottom: 5px;
+}
+.cursor-pointer {
+  cursor: pointer !important;
+}
+.v-main__wrap .start {
+  padding: 32px !important;
+}
+
+.text-red {
+  color: #f44336 !important;
+}
+
+#connectButton img {
+  width: 30px;
+  padding: 2px;
+  margin-right: 10px;
+  background: white;
+  border-radius: 20px;
+}
+
+.sidebar {
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition-duration: 0.2s;
+}
+
+.sidebar .sidebar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 26px;
+}
+
+.sidebar .sidebar-link:hover,
+.sidebar .sidebar-link.is-active {
+  color: #fff;
+  font-weight: 600;
+}
+
+.sidebar .sidebar-link:hover svg,
+.sidebar .sidebar-link.is-active svg {
+  background: #ff7551;
+}
+
+.sidebar .sidebar-link svg {
+  width: 40px;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: var(--button-bg);
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+.sidebar .sidebar-link svg:hover {
+  color: #fff;
+}
+
+.card {
+  padding: 40px;
+  transition: 0.4s;
+  border-radius: 20px;
+  background-color: #252936;
+}
+
+.c-icon {
+  width: 75px;
+  height: 75px;
+  padding: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+hr {
+  border-color: rgb(128 129 145 / 24%);
+  margin: 40px 0;
+}
+
+.theme--dark.v-application,
+.theme--dark.v-app-bar.v-toolbar.v-sheet,
+.theme--dark.v-navigation-drawer {
+  background-color: var(--theme-bg);
+}
+
+.toasted.outline {
+  font-size: 16px !important;
+  color: white !important;
+  min-height: 50px !important;
+  border-radius: 6px !important;
+  background-color: #ff7551 !important;
+}
+.withdraw-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.approve-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anim {
+  animation: bottom 0.8s var(--delay) both;
+  -webkit-animation: bottom 0.8s var(--delay) both;
+}
+
+@-webkit-keyframes bottom {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bottom {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    padding: 20px;
+  }
+  .v-main__wrap .start {
+    padding: 12px !important;
+  }
+  .approve-section,
+  .withdraw-section {
+    display: grid;
+    grid-gap: 20px;
+  }
+}
