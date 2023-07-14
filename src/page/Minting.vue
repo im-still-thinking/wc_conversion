@@ -134,8 +134,8 @@ export default {
         "ether"
       );
       this.isLoading = true;
-      this.getGTXInstance.methods
-        .mintWithOLDCrv(tokenAmount)
+      this.getGTXInstance.read
+        .mintWithOLDCrv([tokenAmount])
         .send({
           from: this.getUserAddress,
         })
