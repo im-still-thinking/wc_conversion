@@ -3553,6 +3553,11 @@ bigint-buffer@^1.1.5:
   dependencies:
     bindings "^1.3.0"
 
+bignumber.js@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-7.2.1.tgz"
+  integrity sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
+
 bignumber.js@^9.0.0:
   version "9.1.1"
   resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.1.tgz"
@@ -4718,6 +4723,13 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+cryptocurrency-unit-convert@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.npmjs.org/cryptocurrency-unit-convert/-/cryptocurrency-unit-convert-1.2.9.tgz"
+  integrity sha512-tG0EXksM/qbBlJ9E6W7Mx4OuOrg8y0Cs5vkIUXef01AjlwINctXVAO5VB61vxvhK6kSHxW0f3ZcAk3YWw3YQiw==
+  dependencies:
+    bignumber.js "^7.2.1"
 
 css-color-keywords@^1.0.0:
   version "1.0.0"

@@ -15,6 +15,7 @@
     "axios": "^1.2.2",
     "chart.js": "^3.8.0",
     "core-js": "^3.6.5",
+    "cryptocurrency-unit-convert": "^1.2.9",
     "viem": "^1.2.14",
     "vue": "^2.6.11",
     "vue-chartjs": "^4.0.0",
