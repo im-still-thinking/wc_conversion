@@ -181,6 +181,13 @@
   </v-row>
 </template>
 <script>
+
+import abis from "@/config/abis.json";
+import { getPublicClient, getWalletClient } from "@wagmi/core";
+const Units = require("cryptocurrency-unit-convert");
+
+import { sepolia } from "@wagmi/core/chains";
+
 export default {
   name: "Locking",
   data() {
@@ -267,7 +274,15 @@ export default {
       });
     },
 
-    onGTXApprove() {
+    async onGTXApprove() {
+      const walletClient = await getWalletClient({
+        chainId: sepolia.id,
+      });
+
+      const publicClient = getPublicClient({
+        chainId: sepolia.id,
+      });
+
       this.hash1 = null;
       this.hash2 = null;
       this.hash3 = null;
@@ -276,28 +291,46 @@ export default {
         this.$toasted.show("Connect your wallet first");
         return;
       }
-      this.getGTXInstance.read
-        .approve([this.LOCKER_ADDRESS, "1000000000000000000000000000"])
-        .send({
-          from: this.getUserAddress,
-        })
-        .on("transactionHash", (hash) => {
+      const { request } = await publicClient.simulateContract({
+        address: this.GTX_ADDRESS,
+        abi: abis.GTX_ABI,
+        functionName: "approve",
+        args: [this.LOCKER_ADDRESS, "1000000000000000000000000000"],
+        account: this.getUserAddress,
+      });
+      await walletClient
+        .writeContract(request)
+        .then((hash) => {
           this.hash1 = hash;
           console.log("Transaction Hash: ", hash);
           this.$toasted.show("Transaction is submitted to the network");
+          const unwatch = publicClient.watchContractEvent({
+            address: this.GTX_ADDRESS,
+            abi: abis.GTX_ABI,
+            eventName: "Approval",
+            onLogs: (logs) => {
+              console.log(logs);
+              this.readValues();
+              this.$toasted.show("Transaction completed successfully");
+              unwatch();
+            },
+          });
         })
-        .on("receipt", (receipt) => {
-          this.readValues();
-          console.log("Receipt: ", receipt);
-          this.$toasted.show("Transaction completed successfully");
-        })
-        .on("error", (error, receipt) => {
-          console.log("Error receipt: ", receipt);
+        .catch((error) => {
+          console.log(error);
           this.$toasted.show("Transaction rejected");
         });
     },
 
-    onLock() {
+    async onLock() {
+      const walletClient = await getWalletClient({
+        chainId: sepolia.id,
+      });
+
+      const publicClient = getPublicClient({
+        chainId: sepolia.id,
+      });
+
       this.hash1 = null;
       this.hash2 = null;
       this.hash3 = null;
@@ -314,32 +347,51 @@ export default {
         this.$toasted.show("Select Locking period");
         return;
       }
-      let amount = this.getWeb3.utils.toWei(
+      let amount = Units.convertETH(
         this.lockAmount.toString(),
-        "ether"
+        "eth",
+        "wei"
       );
-      this.getLOCKERInstance.read
-        .createLock([amount, time])
-        .send({
-          from: this.getUserAddress,
+
+      await walletClient
+        .writeContract({
+          address: this.LOCKER_ADDRESS,
+          abi: abis.LOCKER_ABI,
+          functionName: "createAmount",
+          args: [amount, time],
+          account: this.getUserAddress,
         })
-        .on("transactionHash", (hash) => {
+        .then((hash) => {
           this.hash2 = hash;
           console.log("Transaction Hash: ", hash);
           this.$toasted.show("Transaction is submitted to the network");
+          const unwatch = publicClient.watchContractEvent({
+            address: this.GTX_ADDRESS,
+            abi: abis.GTX_ABI,
+            eventName: "Approval",
+            onLogs: (logs) => {
+              console.log(logs);
+              this.readValues();
+              this.$toasted.show("Transaction completed successfully");
+              unwatch();
+            },
+          });
         })
-        .on("receipt", (receipt) => {
-          this.readValues();
-          console.log("Receipt: ", receipt);
-          this.$toasted.show("Transaction completed successfully");
-        })
-        .on("error", (error, receipt) => {
-          console.log("Error receipt: ", receipt);
+        .catch((error) => {
+          console.log(error);
           this.$toasted.show("Transaction rejected");
         });
     },
 
-    onIncLockAmount() {
+    async nIncLockAmount() {
+      const walletClient = await getWalletClient({
+        chainId: sepolia.id,
+      });
+
+      const publicClient = getPublicClient({
+        chainId: sepolia.id,
+      });
+
       this.hash1 = null;
       this.hash2 = null;
       this.hash3 = null;
@@ -352,33 +404,51 @@ export default {
         return;
       }
 
-      let amount = this.getWeb3.utils.toWei(
+      let amount = Units.convertETH(
         this.incLockAmount.toString(),
-        "ether"
+        "eth",
+        "wei"
       );
 
-      this.getLOCKERInstance.read
-        .increaseAmount([amount])
-        .send({
-          from: this.getUserAddress,
+      await walletClient
+        .writeContract({
+          address: this.LOCKER_ADDRESS,
+          abi: abis.LOCKER_ABI,
+          functionName: "increaseAmount",
+          args: [amount],
+          account: this.getUserAddress,
         })
-        .on("transactionHash", (hash) => {
+        .then((hash) => {
           this.hash3 = hash;
           console.log("Transaction Hash: ", hash);
           this.$toasted.show("Transaction is submitted to the network");
+          const unwatch = publicClient.watchContractEvent({
+            address: this.GTX_ADDRESS,
+            abi: abis.GTX_ABI,
+            eventName: "Approval",
+            onLogs: (logs) => {
+              console.log(logs);
+              this.readValues();
+              this.$toasted.show("Transaction completed successfully");
+              unwatch();
+            },
+          });
         })
-        .on("receipt", (receipt) => {
-          this.readValues();
-          console.log("Receipt: ", receipt);
-          this.$toasted.show("Transaction completed successfully");
-        })
-        .on("error", (error, receipt) => {
-          console.log("Error receipt: ", receipt);
+        .catch((error) => {
+          console.log(error);
           this.$toasted.show("Transaction rejected");
         });
     },
 
-    onIncLockTime() {
+    async onIncLockTime() {
+      const walletClient = await getWalletClient({
+        chainId: sepolia.id,
+      });
+
+      const publicClient = getPublicClient({
+        chainId: sepolia.id,
+      });
+
       this.hash1 = null;
       this.hash2 = null;
       this.hash3 = null;
@@ -394,53 +464,81 @@ export default {
         return;
       }
 
-      this.getLOCKERInstance.read
-        .increaseUnlockTime([time])
-        .send({
-          from: this.getUserAddress,
+      await walletClient
+        .writeContract({
+          address: this.LOCKER_ADDRESS,
+          abi: abis.LOCKER_ABI,
+          functionName: "increaseUnlockTime",
+          args: [time],
+          account: this.getUserAddress,
         })
-        .on("transactionHash", (hash) => {
+        .then((hash) => {
           this.hash4 = hash;
           console.log("Transaction Hash: ", hash);
           this.$toasted.show("Transaction is submitted to the network");
+          const unwatch = publicClient.watchContractEvent({
+            address: this.GTX_ADDRESS,
+            abi: abis.GTX_ABI,
+            eventName: "Approval",
+            onLogs: (logs) => {
+              console.log(logs);
+              this.readValues();
+              this.$toasted.show("Transaction completed successfully");
+              unwatch();
+            },
+          });
         })
-        .on("receipt", (receipt) => {
-          this.readValues();
-          console.log("Receipt: ", receipt);
-          this.$toasted.show("Transaction completed successfully");
-        })
-        .on("error", (error, receipt) => {
-          console.log("Error receipt: ", receipt);
+        .catch((error) => {
+          console.log(error);
           this.$toasted.show("Transaction rejected");
         });
     },
 
-    onWithdraw() {
+    async onWithdraw() {
+      const walletClient = await getWalletClient({
+        chainId: sepolia.id,
+      });
+
+      const publicClient = getPublicClient({
+        chainId: sepolia.id,
+      });
+
       this.hash1 = null;
       this.hash2 = null;
       this.hash3 = null;
       this.hash4 = null;
+
       if (!this.getUserAddress) {
         this.$toasted.show("Connect your wallet first");
         return;
       }
-      this.getLOCKERInstance.read
-        .withdraw()
-        .send({
-          from: this.getUserAddress,
+
+      await walletClient
+        .writeContract({
+          address: this.LOCKER_ADDRESS,
+          abi: abis.LOCKER_ABI,
+          functionName: "withdraw",
+          account: this.getUserAddress,
         })
-        .on("transactionHash", (hash) => {
+        .then((hash) => {
           this.hash1 = hash;
           console.log("Transaction Hash: ", hash);
           this.$toasted.show("Transaction is submitted to the network");
+          const unwatch = publicClient.watchContractEvent({
+            address: this.GTX_ADDRESS,
+            abi: abis.GTX_ABI,
+            eventName: "Approval",
+            onLogs: (logs) => {
+              console.log(logs);
+              this.readValues();
+            this.$toasted.show("Transaction completed successfully");
+              unwatch();
+            },
+          });
         })
-        .on("receipt", (receipt) => {
-          this.readValues();
-          console.log("Receipt: ", receipt);
-          this.$toasted.show("Transaction completed successfully");
-        })
-        .on("error", (error, receipt) => {
-          console.log("Error receipt: ", receipt);
+        .catch((error) => {
+          console.log(error);
+          this.$toasted.show("Transaction rejected");
         });
     },
     openScan(hash) {

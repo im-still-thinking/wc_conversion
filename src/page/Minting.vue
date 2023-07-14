@@ -51,7 +51,7 @@
   </v-row>
 </template>
 <script>
-const Units = require('cryptocurrency-unit-convert')
+const Units = require("cryptocurrency-unit-convert");
 // eslint-disable-next-line no-unused-vars
 import { sepolia } from "@wagmi/core/chains";
 
@@ -190,19 +190,29 @@ export default {
         return;
       }
 
-      let tokenAmount = Units.convertETH(this.tokenAmount.toString(), 'eth', 'wei')
-      console.log(tokenAmount)
+      let tokenAmount = Units.convertETH(
+        this.tokenAmount.toString(),
+        "eth",
+        "wei"
+      );
+      console.log(tokenAmount);
 
       this.isLoading = true;
-      const { request } = await publicClient.simulateContract({
-        address: this.GTX_ADDRESS,
-        abi: abis.GTX_ABI,
-        functionName: "mintWithOLDCrv",
-        args: [tokenAmount],
-        account: this.getUserAddress,
-      });
+      // const { request } = await publicClient.simulateContract({
+      //   address: this.GTX_ADDRESS,
+      //   abi: abis.GTX_ABI,
+      //   functionName: "mintWithOLDCrv",
+      //   args: [tokenAmount],
+      //   account: this.getUserAddress,
+      // });
       await walletClient
-        .writeContract(request)
+        .writeContract({
+          address: this.GTX_ADDRESS,
+          abi: abis.GTX_ABI,
+          functionName: "mintWithOLDCrv",
+          args: [tokenAmount],
+          account: this.getUserAddress,
+        })
         .then((hash) => {
           this.hash = hash;
           console.log("Transaction Hash: ", hash);
