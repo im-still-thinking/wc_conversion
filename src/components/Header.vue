@@ -29,8 +29,15 @@
   </v-app-bar>
 </template>
 <script>
+import EventBus from '../../eventbus.js'
+
 export default {
   name: "Header",
+  mounted() {
+    EventBus.$on("disconnect", () => {
+      this.onDisconnect();
+    });
+  },
   methods: {
     onDisconnect() {
       this.SET_WEB3(null);

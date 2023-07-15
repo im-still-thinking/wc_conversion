@@ -29,6 +29,8 @@ import { Web3Modal } from "@web3modal/html";
 import Header from "./components/Header.vue";
 import Sidebar from "./components/Sidebar.vue";
 
+import EventBus from '../eventbus.js'
+
 
 export default {
   name: "App",
@@ -68,6 +70,9 @@ export default {
         const unwatch = watchAccount(
           (account) => {
             console.log(account)
+            if(account.isDisconnected){
+              EventBus.$emit('disconnect')
+            }
             this.onProvider()
           })
         // eslint-disable-next-line no-unused-vars
