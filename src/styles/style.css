@@ -175,3 +175,82 @@ hr {
     grid-gap: 20px;
   }
 }
+
+.page-container {
+  position: relative;
+  z-index: 1;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Set the container height to full viewport height */
+  width: 40vw;
+}
+
+.combined-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 90%; /* Adjust the width as needed */
+  max-width: 600px; /* Set a maximum width if desired */
+  box-sizing: border-box;
+  margin: auto; /* Use auto margin to center horizontally */
+}
+
+.button-section {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.button-image {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+.button-title {
+  font-size: 16px;
+  margin: 0;
+  color: black;
+}
+
+.button-subtitle {
+  font-size: 12px;
+  margin: 0;
+  color: black;
+}
+
+.separator-line {
+  width: 100%;
+  height: 1px;
+  background-color: #D3D3D3;
+  margin: 10px 0;
+}

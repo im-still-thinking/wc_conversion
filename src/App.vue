@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <Sidebar @onClose="onClose" :isOpen="isOpen"></Sidebar>
-    <Header @onOpen="isOpen = !isOpen" @onConnect="onConnect"></Header>
+    <Header @onOpen="isOpen = !isOpen" @onConnect="showCombinedButton"></Header>
+    <div class="page-container">
     <v-main>
       <v-row class="start">
         <div class="col-12">
@@ -12,7 +13,29 @@
           </div>
         </div>
       </v-row>
+      <div v-if="show" class="overlay"> 
+        <div class="center-container">
+            <div class="combined-button">
+              <button class="button-section" @click="handleButtonClick()">
+                <img class="button-image" src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="Button 1 Image">
+                <div class="button-text">
+                  <h3 class="button-title">Metamask</h3>
+                  <p class="button-subtitle">Connect to your Metamask Wallet</p>
+                </div>
+              </button>
+              <hr class="separator-line">
+              <button class="button-section" @click="handleButtonClick()">
+                <img class="button-image" src="https://altcoinsbox.com/wp-content/uploads/2023/04/wallet-connect-logo.png" alt="Button 2 Image">
+                <div class="button-text">
+                  <h3 class="button-title">WalletConnect</h3>
+                  <p class="button-subtitle">Scan with WalletConnect to connect</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
     </v-main>
+    </div>
   </v-app>
 </template>
 
@@ -40,6 +63,7 @@ export default {
       isOpen: true,
       provider: null,
       web3Modal: null,
+      show: false,
     };
   },
   beforeMount() {
@@ -59,6 +83,14 @@ export default {
     this.web3modal = new Web3Modal({ projectId }, ethereumClient);
   },
   methods: {
+    showCombinedButton() {
+      this.show = true;
+    },
+    handleButtonClick() {
+      // Hide the combined button
+      this.show = false;
+      this.onConnect();
+    },
     onClose(isClose) {
       if (!isClose) this.isOpen = false;
     },

@@ -33,6 +33,11 @@ import EventBus from '../../eventbus.js'
 
 export default {
   name: "Header",
+  data(){
+    return {
+      visible: false
+    }
+  },
   mounted() {
     EventBus.$on("disconnect", () => {
       this.onDisconnect();
