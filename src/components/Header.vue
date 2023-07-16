@@ -21,6 +21,7 @@
       large
       id="connectButton"
       color="secondary"
+      ref="connectButton"
       @click="$emit('onConnect')"
     >
       <img src="@/assets/metamask.webp" />
